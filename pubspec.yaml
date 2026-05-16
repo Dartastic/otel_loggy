@@ -1,0 +1,23 @@
+name: otel_loggy
+description: >-
+  OpenTelemetry log bridge for package:loggy. Mirrors every Loggy log
+  record into the OTel logs pipeline so structured records flow to your
+  backend while Loggy keeps rendering. Records inherit trace_id/span_id
+  from the active span.
+version: 0.1.0-beta.1-wip
+repository: https://github.com/dartastic/otel_loggy
+homepage: https://dartastic.io
+
+environment:
+  sdk: ^3.0.0
+
+dependencies:
+  dartastic_opentelemetry: ^1.1.0-beta.4
+  dartastic_opentelemetry_api: ^1.0.0-beta.6
+  loggy: ^2.0.0
+
+dev_dependencies:
+  dart_flutter_team_lints: ^3.5.2
+  pub_semver: ^2.0.0
+  pubspec_parse: ^1.5.0
+  test: ^1.26.3
