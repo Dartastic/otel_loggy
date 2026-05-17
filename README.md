@@ -27,7 +27,6 @@ import 'package:otel_loggy/otel_loggy.dart';
 Future<void> main() async {
   await OTel.initialize(
     serviceName: 'my-app',
-    endpoint: 'http://localhost:4317',
   );
 
   Loggy.initLoggy(
