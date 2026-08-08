@@ -78,22 +78,22 @@ class OTelLoggyPrinter extends loggy_lib.LoggyPrinter {
     final logger = provider.getLogger(_loggerName);
 
     final attrs = <Attribute<Object>>[
-      OTel.attributeString('logger.name', record.loggerName),
+      OTel.attributeString(LoggySemantics.loggerName.key, record.loggerName),
     ];
     if (record.error != null) {
       attrs
         ..add(OTel.attributeString(
-          'exception.type',
+          ExceptionAttributes.exceptionType.key,
           record.error.runtimeType.toString(),
         ))
         ..add(OTel.attributeString(
-          'exception.message',
+          ExceptionAttributes.exceptionMessage.key,
           record.error.toString(),
         ));
     }
     if (_includeStackTrace && record.stackTrace != null) {
       attrs.add(OTel.attributeString(
-        'exception.stacktrace',
+        ExceptionAttributes.exceptionStacktrace.key,
         record.stackTrace.toString(),
       ));
     }
@@ -106,6 +106,26 @@ class OTelLoggyPrinter extends loggy_lib.LoggyPrinter {
       attributes: OTel.attributes(attrs),
     );
   }
+}
+
+/// Attribute keys emitted by this bridge that have no OpenTelemetry
+/// registry equivalent.
+///
+/// The OTel attribute registry has no convention for the name of the
+/// source logger, so the key lives here as a typed constant rather
+/// than a raw string. `exception.*` keys come from the registry
+/// `ExceptionAttributes` enum.
+enum LoggySemantics implements OTelSemantic {
+  /// The name of the `loggy` logger that produced the record.
+  loggerName('logger.name');
+
+  @override
+  final String key;
+
+  const LoggySemantics(this.key);
+
+  @override
+  String toString() => key;
 }
 
 Severity _mapLevel(loggy_lib.LogLevel level) {
