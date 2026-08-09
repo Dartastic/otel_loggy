@@ -3,7 +3,7 @@ description: >-
   OpenTelemetry log bridge for package:loggy. Mirrors every Loggy record
   into the OTel logs pipeline, inheriting trace_id/span_id, while Loggy
   keeps rendering its own output.
-version: 0.2.0
+version: 0.3.0-wip
 repository: https://github.com/dartastic/otel_loggy
 homepage: https://dartastic.io
 
