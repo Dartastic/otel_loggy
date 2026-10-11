@@ -3,7 +3,7 @@
 
 import 'dart:async';
 
-import 'package:dartastic_opentelemetry/dartastic_opentelemetry.dart';
+import 'package:dartastic_opentelemetry_api/dartastic_opentelemetry_api.dart';
 import 'package:loggy/loggy.dart' as loggy_lib;
 
 import 'otel_loggy_suppression.dart';
@@ -48,14 +48,14 @@ class OTelLoggyPrinter extends loggy_lib.LoggyPrinter {
   /// - [includeStackTrace] — when `false`, the stack trace is not
   ///   attached as an attribute. Defaults to `true`.
   const OTelLoggyPrinter({
-    LoggerProvider? loggerProvider,
+    APILoggerProvider? loggerProvider,
     String loggerName = 'package.loggy',
     bool includeStackTrace = true,
   })  : _provider = loggerProvider,
         _loggerName = loggerName,
         _includeStackTrace = includeStackTrace;
 
-  final LoggerProvider? _provider;
+  final APILoggerProvider? _provider;
   final String _loggerName;
   final bool _includeStackTrace;
 
@@ -74,25 +74,25 @@ class OTelLoggyPrinter extends loggy_lib.LoggyPrinter {
 
   void _emit(loggy_lib.LogRecord record) {
     if (loggyInstrumentationSuppressed()) return;
-    final provider = _provider ?? OTel.loggerProvider();
+    final provider = _provider ?? OTelAPI.loggerProvider();
     final logger = provider.getLogger(_loggerName);
 
     final attrs = <Attribute<Object>>[
-      OTel.attributeString(LoggySemantics.loggerName.key, record.loggerName),
+      OTelAPI.attributeString(LoggySemantics.loggerName.key, record.loggerName),
     ];
     if (record.error != null) {
       attrs
-        ..add(OTel.attributeString(
+        ..add(OTelAPI.attributeString(
           ExceptionAttributes.exceptionType.key,
           record.error.runtimeType.toString(),
         ))
-        ..add(OTel.attributeString(
+        ..add(OTelAPI.attributeString(
           ExceptionAttributes.exceptionMessage.key,
           record.error.toString(),
         ));
     }
     if (_includeStackTrace && record.stackTrace != null) {
-      attrs.add(OTel.attributeString(
+      attrs.add(OTelAPI.attributeString(
         ExceptionAttributes.exceptionStacktrace.key,
         record.stackTrace.toString(),
       ));
@@ -103,7 +103,7 @@ class OTelLoggyPrinter extends loggy_lib.LoggyPrinter {
       severityNumber: _mapLevel(record.level),
       severityText: record.level.name,
       body: record.message.toString(),
-      attributes: OTel.attributes(attrs),
+      attributes: OTelAPI.attributes(attrs),
     );
   }
 }
