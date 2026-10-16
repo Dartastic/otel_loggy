@@ -1,8 +1,7 @@
 name: otel_loggy
 description: >-
-  OpenTelemetry log bridge for package:loggy. Mirrors every Loggy record
-  into the OTel logs pipeline, inheriting trace_id/span_id, while Loggy
-  keeps rendering its own output.
+  OpenTelemetry instrumentation for loggy by Dartastic.io. Adds standard
+  OpenTelemetry observability to applications that use loggy.
 version: 0.3.1-wip
 repository: https://github.com/dartastic/otel_loggy
 homepage: https://dartastic.io
