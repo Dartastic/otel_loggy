@@ -115,7 +115,7 @@ auto-correlated.
 ```yaml
 dependencies:
   loggy: ^2.0.2
-  otel_loggy: ^0.3.0
+  otel_loggy: ^0.3.1
 ```
 
 ## Use
